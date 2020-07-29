@@ -6,7 +6,19 @@ import api from '../../services/api';
 
 import '../../config/ReactotronConfig';
 
-import { Container, Form, Input, SubmitButton } from './styles';
+import {
+  Container,
+  Form,
+  Input,
+  SubmitButton,
+  List,
+  User,
+  Avatar,
+  Name,
+  Bio,
+  ProfileButton,
+  ProfileButtonText,
+} from './styles';
 
 Icon.loadFont();
 
@@ -19,13 +31,13 @@ export default class Main extends Component {
   handleAddUser = async () => {
     const { users, newUser } = this.state;
 
-    const reponse = await api.get(`/users/${newUser}`);
+    const response = await api.get(`/users/${newUser}`);
 
     const data = {
-      name: reponse.data.name,
-      login: reponse.data.login,
-      bio: Response.data.bio,
-      avatar: reponse.data.avatar_url,
+      name: response.data.name,
+      login: response.data.login,
+      bio: response.data.bio,
+      avatar: response.data.avatar_url,
     };
 
     this.setState({
@@ -55,6 +67,22 @@ export default class Main extends Component {
             <Icon name="add" size={20} color="#fff" />
           </SubmitButton>
         </Form>
+
+        <List
+          data={users}
+          keyExtractor={(user) => user.login}
+          renderItem={({ item }) => (
+            <User>
+              <Avatar source={{ uri: item.avatar }} />
+              <Name>{item.name}</Name>
+              <Bio>{item.bio}</Bio>
+
+              <ProfileButton onPress={() => {}}>
+                <ProfileButtonText>Ver perfil</ProfileButtonText>
+              </ProfileButton>
+            </User>
+          )}
+        />
       </Container>
     );
   }
