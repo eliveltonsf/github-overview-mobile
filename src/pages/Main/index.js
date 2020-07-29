@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import { Keyboard } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import { Container, Form, Input, SubmitButton } from './styles';
+import api from '../../services/api';
 
 import '../../config/ReactotronConfig';
+
+import { Container, Form, Input, SubmitButton } from './styles';
 
 Icon.loadFont();
 
@@ -13,8 +16,24 @@ export default class Main extends Component {
     users: [],
   };
 
-  handleAddUser = () => {
-    console.tron.log(this.state.newUser);
+  handleAddUser = async () => {
+    const { users, newUser } = this.state;
+
+    const reponse = await api.get(`/users/${newUser}`);
+
+    const data = {
+      name: reponse.data.name,
+      login: reponse.data.login,
+      bio: Response.data.bio,
+      avatar: reponse.data.avatar_url,
+    };
+
+    this.setState({
+      users: [...users, data],
+      newUser: '',
+    });
+
+    Keyboard.dismiss;
   };
 
   render() {
