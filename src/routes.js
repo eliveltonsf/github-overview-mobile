@@ -23,7 +23,19 @@ function Routes() {
           headerBackTitleVisible: false,
         }}
       />
-      <Stack.Screen name="User" component={User} />
+      <Stack.Screen
+        name="User"
+        component={User}
+        options={({ route }) => ({
+          title: route.params.user.name,
+          headerTitleAlign: 'center',
+          headerStyle: {
+            backgroundColor: '#7159c1',
+          },
+          headerTintColor: '#fff',
+          headerBackTitleVisible: false,
+        })}
+      />
     </Stack.Navigator>
   );
 }
